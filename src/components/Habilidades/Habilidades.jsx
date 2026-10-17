@@ -1,47 +1,123 @@
+
 import './Habilidades.css';
 
-const Habilidades = () => {
-  // Arreglo de datos: separa la información de la interfaz gráfica
-  const skillsData = [
-    { id: 1, titulo: "React", descripcion: "Construcción de interfaces de usuario modernas a partir de componentes.", nivel: "Aprendizaje Activo", botonTexto: "EN PROCESO", estado: "proceso" },
-    { id: 2, titulo: "JavaScript", descripcion: "Lenguaje de programación interpretado, dialecto del estándar ECMAScript.", nivel: "Aprendizaje Activo", botonTexto: "EN PROCESO", estado: "proceso" },
-    { id: 3, titulo: "HTML5", descripcion: "Estructura semántica de páginas web.", nivel: "Intermedio", botonTexto: "DOMINADO", estado: "completado" },
-    { id: 4, titulo: "CSS3", descripcion: "Estilos, animaciones y diseño responsive.", nivel: "Intermedio", botonTexto: "DOMINADO", estado: "completado" },
-    { id: 5, titulo: "Grid", descripcion: "Construcción de rejillas responsivas.", nivel: "Aprendizaje Activo", botonTexto: "EN PROCESO", estado: "proceso" },
-    { id: 6, titulo: "Flexbox", descripcion: "Método de diseño de página unidimensional para compaginar elementos en filas o columnas.", nivel: "Aprendizaje Activo", botonTexto: "EN PROCESO", estado: "proceso" },
-    { id: 7, titulo: "Git", descripcion: "Sistema de control de versiones.", nivel: "Aprendizaje Activo", botonTexto: "EN PROCESO", estado: "proceso" },
-    { id: 8, titulo: "GitHub", descripcion: "Repositorio en la nube.", nivel: "Aprendizaje Activo", botonTexto: "EN PROCESO", estado: "proceso" },
-    { id: 9, titulo: "Bootstrap", descripcion: "Framework CSS para diseño responsive rápido.", nivel: "Intermedio", botonTexto: "DOMINADO", estado: "completado" }
-  ];
+const skillsData = [
+  {
+    id: 1,
+    titulo: 'Python Essentials 1',
+    descripcion:
+      'Fundamentos de programación, variables, estructuras de control, funciones y lógica de programación con Python.',
+    nivel: 'Cisco Networking Academy',
+    botonTexto: 'CERTIFICADO',
+    estado: 'green',
+  },
+  {
+    id: 2,
+    titulo: 'Introducción a la Ciencia de Datos',
+    descripcion:
+      'Conceptos fundamentales de ciencia de datos y su aplicación en el análisis y la comprensión de información.',
+    nivel: 'Cisco Networking Academy',
+    botonTexto: 'CERTIFICADO',
+    estado: 'green',
+  },
+  {
+    id: 3,
+    titulo: 'Introducción a la Ciberseguridad',
+    descripcion:
+      'Fundamentos de seguridad digital, amenazas informáticas y protección de sistemas e información.',
+    nivel: 'Cisco Networking Academy',
+    botonTexto: 'CERTIFICADO',
+    estado: 'green',
+  },
+  {
+    id: 4,
+    titulo: 'Conceptos básicos de redes',
+    descripcion:
+      'Fundamentos de redes, conectividad y comunicación entre dispositivos.',
+    nivel: 'Cisco Networking Academy',
+    botonTexto: 'CERTIFICADO',
+    estado: 'green',
+  },
+  {
+    id: 5,
+    titulo: 'Red Hat System Administration',
+    descripcion:
+      'Formación en administración de sistemas Linux y herramientas de gestión del sistema.',
+    nivel: 'Credencial disponible en Credly',
+    botonTexto: 'CERTIFICADO',
+    estado: 'green',
+  },
+  {
+    id: 6,
+    titulo: 'WordPress y Bricks Builder',
+    descripcion:
+      'Construcción y personalización de sitios web, diseño responsive, configuración de componentes y ajustes visuales.',
+    nivel: 'Experiencia práctica',
+    botonTexto: 'EXPERIENCIA',
+    estado: 'cyan',
+  },
+  {
+    id: 7,
+    titulo: 'PHP y MySQL',
+    descripcion:
+      'Desarrollo backend, procesamiento de formularios, consultas SQL y conexión con bases de datos.',
+    nivel: 'Experiencia práctica',
+    botonTexto: 'EXPERIENCIA',
+    estado: 'cyan',
+  },
+];
 
+const Habilidades = () => {
   return (
     <section id="tech-stack" className="habilidades-section">
       <div className="habilidades-container">
         <div className="habilidades-grid">
           {skillsData.map((skill) => (
-            <div key={skill.id} className="skill-card">
-
+            <article key={skill.id} className="skill-card">
               <div className="skill-header">
-                <div className="skill-icon">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-cyan">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                    <line x1="3" y1="9" x2="21" y2="9"></line>
-                    <line x1="9" y1="21" x2="9" y2="9"></line>
+                <div className="skill-icon" aria-hidden="true">
+                  <svg
+                    width="32"
+                    height="32"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <rect
+                      x="3"
+                      y="3"
+                      width="18"
+                      height="18"
+                      rx="2"
+                      ry="2"
+                    />
+                    <line x1="3" y1="9" x2="21" y2="9" />
+                    <line x1="9" y1="21" x2="9" y2="9" />
                   </svg>
                 </div>
 
-                <span className={`skill-badge ${skill.estado === 'proceso' ? 'badge-yellow' : 'badge-green'}`}>
+                <span
+                  className={`skill-badge badge-${skill.estado}`}
+                >
                   {skill.botonTexto}
                 </span>
               </div>
 
               <div className="skill-body">
                 <h3 className="skill-title">{skill.titulo}</h3>
-                <p className="skill-desc">{skill.descripcion}</p>
-                <span className="skill-level">{skill.nivel}</span>
-              </div>
 
-            </div>
+                <p className="skill-desc">
+                  {skill.descripcion}
+                </p>
+
+                <span className="skill-level">
+                  {skill.nivel}
+                </span>
+              </div>
+            </article>
           ))}
         </div>
       </div>
