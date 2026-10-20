@@ -1,32 +1,101 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './Navbar.css';
 
+const enlaces = [
+  { id: 'sobre-mi', texto: 'Perfil' },
+  { id: 'tech-stack', texto: 'Habilidades' },
+  { id: 'proyectos', texto: 'Proyectos' },
+];
+
 const Navbar = () => {
-  // Estado para controlar el menú hamburguesa en móviles
+  // Menú hamburguesa (móvil)
   const [isOpen, setIsOpen] = useState(false);
+  // Sección que se está viendo (para resaltar su enlace)
+  const [activa, setActiva] = useState('');
+  // Para reforzar el fondo del navbar cuando se hace scroll
+  const [conScroll, setConScroll] = useState(false);
+
+  // Detectar scroll
+  useEffect(() => {
+    const alScroll = () => setConScroll(window.scrollY > 12);
+    alScroll();
+    window.addEventListener('scroll', alScroll, { passive: true });
+    return () => window.removeEventListener('scroll', alScroll);
+  }, []);
+
+  // Detectar qué sección cruza el centro de la pantalla
+  useEffect(() => {
+    const ids = [...enlaces.map((e) => e.id), 'contacto'];
+    const secciones = ids
+      .map((id) => document.getElementById(id))
+      .filter(Boolean);
+
+    const observador = new IntersectionObserver(
+      (entradas) => {
+        entradas.forEach((entrada) => {
+          if (entrada.isIntersecting) setActiva(entrada.target.id);
+        });
+      },
+      { rootMargin: '-45% 0px -50% 0px' }
+    );
+
+    secciones.forEach((s) => observador.observe(s));
+    return () => observador.disconnect();
+  }, []);
+
+  // Cerrar el menú móvil con la tecla Escape
+  useEffect(() => {
+    if (!isOpen) return;
+    const alTeclear = (e) => e.key === 'Escape' && setIsOpen(false);
+    window.addEventListener('keydown', alTeclear);
+    return () => window.removeEventListener('keydown', alTeclear);
+  }, [isOpen]);
+
+  const cerrar = () => setIsOpen(false);
 
   return (
-    <nav className="navbar">
-      {/* Sección del Logo */}
-      <div className="navbar-logo">
-        <span className="text-cyan">Kevin</span> Muños
-      </div>
+    <header className={`navbar ${conScroll || isOpen ? 'scrolled' : ''}`}>
+      <nav className="navbar-inner" aria-label="Navegación principal">
+        {/* Logo */}
+        <a href="#inicio" className="navbar-logo" onClick={cerrar}>
+          <span className="logo-mark">KM</span>
+          <span className="logo-text">
+            Kevin <strong>Muños</strong>
+          </span>
+        </a>
 
-      {/* Enlaces de Navegación */}
-      <div className={`navbar-links ${isOpen ? "open" : ""}`}>
-        <a href="#sobre-mi" onClick={() => setIsOpen(false)}>Perfil</a>
-        <a href="#tech-stack" onClick={() => setIsOpen(false)}>Tech Stack</a>
-        <a href="#proyectos" onClick={() => setIsOpen(false)}>Proyectos</a>
-        <a href="#contacto" onClick={() => setIsOpen(false)}>Contacto</a>
-      </div>
+        {/* Enlaces */}
+        <div id="menu-principal" className={`navbar-links ${isOpen ? 'open' : ''}`}>
+          {enlaces.map((enlace) => (
+            <a
+              key={enlace.id}
+              href={`#${enlace.id}`}
+              className={activa === enlace.id ? 'active' : ''}
+              onClick={cerrar}
+            >
+              {enlace.texto}
+            </a>
+          ))}
+          <a href="#contacto" className="navbar-cta" onClick={cerrar}>
+            Contacto
+          </a>
+        </div>
 
-      {/* Ícono de Menú Hamburguesa (Solo visible en móviles) */}
-      <div className="navbar-toggle" onClick={() => setIsOpen(!isOpen)}>
-        <span className="bar"></span>
-        <span className="bar"></span>
-        <span className="bar"></span>
-      </div>
-    </nav>
+        {/* Botón hamburguesa (solo móvil) */}
+        <button
+          type="button"
+          className={`navbar-toggle ${isOpen ? 'is-open' : ''}`}
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label={isOpen ? 'Cerrar menú' : 'Abrir menú'}
+          aria-expanded={isOpen}
+          aria-controls="menu-principal"
+        >
+          <span className="bar"></span>
+          <span className="bar"></span>
+          <span className="bar"></span>
+        </button>
+      </nav>
+    </header>
   );
 };
 

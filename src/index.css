@@ -1,10 +1,258 @@
-* {
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Poppins:wght@400;500;600;700&display=swap');
+
+/* ==========================================================
+   TOKENS DE DISEÑO
+   Todos los colores, radios y fuentes salen de aquí.
+   Si quieres cambiar la identidad del portafolio, empieza por este bloque.
+   ========================================================== */
+:root {
+  --bg: #070b14;
+  --bg-alt: #0a111e;
+  --surface: #0f1829;
+  --surface-2: #142038;
+
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+
+  --text: #e8edf4;
+  --text-soft: #b4bdca;
+  --muted: #8b95a1;
+
+  --cyan: #00d8ff;
+  --mint: #6ee7b7;
+  --grad: linear-gradient(135deg, var(--cyan), var(--mint));
+
+  --radius: 18px;
+  --radius-sm: 10px;
+  --shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+  --glow: 0 0 40px rgba(0, 216, 255, 0.18);
+
+  --nav-h: 72px;
+
+  --font: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  color-scheme: dark;
+}
+
+/* ==========================================================
+   RESET Y BASE
+   ========================================================== */
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
 }
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-h) + 8px);
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+::selection {
+  background: rgba(0, 216, 255, 0.3);
+}
+
+/* ==========================================================
+   ESTRUCTURA COMPARTIDA DE SECCIONES
+   ========================================================== */
+.section {
+  position: relative;
+  padding: 6.5rem 5%;
+}
+
+.section--alt {
+  background: var(--bg-alt);
+}
+
+.container {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.section-head {
+  margin-bottom: 3.25rem;
+}
+
+.section-head.center {
+  text-align: center;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 0.9rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+.eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--grad);
+}
+
+.section-title {
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.section-lead {
+  max-width: 620px;
+  margin-top: 1rem;
+  color: var(--muted);
+}
+
+.section-head.center .section-lead {
+  margin-inline: auto;
+}
+
+.text-gradient {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ==========================================================
+   BOTONES (usados en varias secciones)
+   ========================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.85rem 1.7rem;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  font-size: 0.98rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background-color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background: var(--grad);
+  color: #04121a;
+  box-shadow: 0 8px 24px rgba(0, 216, 255, 0.25);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 12px 32px rgba(0, 216, 255, 0.4);
+}
+
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* ==========================================================
+   ANIMACIÓN DE APARICIÓN AL HACER SCROLL
+   Solo se activa si hay JS (clase .js en <html>), así nunca se oculta contenido
+   por error. Respeta "reducir movimiento" del sistema.
+   ========================================================== */
+.js .reveal {
+  opacity: 0;
+}
+
+/* "backwards" mantiene el estado inicial durante el retraso y, al terminar,
+   suelta el elemento para que sus propios hover/transiciones funcionen. */
+.js .reveal.is-visible {
+  opacity: 1;
+  animation: reveal-in 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0ms) backwards;
+}
+
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 4.5rem 5%;
+  }
+
+  .section-head {
+    margin-bottom: 2.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .js .reveal {
+    opacity: 1;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+  }
 }
