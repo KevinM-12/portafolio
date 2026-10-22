@@ -148,35 +148,24 @@
   resize: vertical;
 }
 
+/* Mientras se envía el correo (inputs y botón desactivados) */
+.form-group input:disabled,
+.form-group textarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-submit:disabled {
+  opacity: 0.65;
+  cursor: wait;
+  transform: none;
+}
+
 .btn-submit {
   width: 100%;
   margin-top: 0.4rem;
   padding: 1rem;
   font-size: 1rem;
-}
-
-.form-status {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.7rem;
-  padding: 0.9rem 1rem;
-  border: 1px solid rgba(110, 231, 183, 0.35);
-  border-radius: 10px;
-  background: rgba(110, 231, 183, 0.07);
-  font-size: 0.9rem;
-  line-height: 1.5;
-  color: var(--text-soft);
-}
-
-.form-status svg {
-  flex-shrink: 0;
-  margin-top: 2px;
-  color: var(--mint);
-}
-
-.form-status strong {
-  color: var(--text);
-  overflow-wrap: anywhere;
 }
 
 @media (max-width: 800px) {
